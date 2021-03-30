@@ -1,8 +1,11 @@
 <template>
   <el-dialog title="编辑商品详情" :visible="show" class="edit-goods-info" @close="$emit('close')">
-    <el-form ref="goodsForm" :model="tempGoods" :rules="rules" label-width="100px">
+    <el-form ref="goodsForm" :model="tempGoods" :rules="rules" label-width="100px" >
       <el-form-item label="商品名称" prop="goodsName">
         <el-input v-model="tempGoods.goodsName" />
+      </el-form-item>
+      <el-form-item label="商品描述" prop="goodsName">
+        <el-input v-model="tempGoods.goodsInfo.intro" />
       </el-form-item>
       <div class="el-row">
         <el-form-item class="el-col-12" label="原价" prop="name">
@@ -17,10 +20,13 @@
         <el-form-item class="el-col-12" label="库存" prop="name">
           <el-input-number v-model="tempGoods.inventory" :min="1" :max="1000" />
         </el-form-item>
+        <el-form-item class="el-col-12" label="是否上架" prop="delivery">
+          <el-switch v-model="tempGoods.delivery" />
+        </el-form-item>
+        <el-form-item class="el-col-12" label="运费" prop="delivery">
+          <el-input-number v-model="tempGoods.goodsInfo.postage" :precision="2" :step="0.1" :min="0.01" />
+        </el-form-item>
       </div>
-      <el-form-item label="是否上架" prop="delivery">
-        <el-switch v-model="tempGoods.delivery" />
-      </el-form-item>
       <el-form-item label="商品主图" prop="name">
         <el-upload
           action="https://jsonplaceholder.typicode.com/posts/"
@@ -106,18 +112,24 @@ export default {
   watch: {
     goods: {
       handler(val) {
-        this.tempGoods = val
+        console.log(val)
+        this.tempGoods = {
+          ...val
+        }
       },
       immediate: true
     }
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          alert('submit!')
+          // alert('submit!')
+          await this.$api.goods.updateGoodsInfo(this.tempGoods)
+          this.$emit('update', this.tempGoods)
+          this.$emit('close')
         } else {
-          console.log('error submit!!')
+          // console.log('error submit!!')
           return false
         }
       })
@@ -135,6 +147,9 @@ export default {
 
 <style lang="scss">
 .edit-goods-info {
+  .el-dialog {
+    width: 800px;
+  }
   .el-upload--picture-card {
     width: 80px;
     height: 80px;

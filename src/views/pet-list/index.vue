@@ -90,7 +90,13 @@
         <el-button type="primary" @click="handlerDelete">确 定</el-button>
       </span>
     </el-dialog>
-    <edit-goods-info-dialog v-if="showEditDialog" :show="showEditDialog" :goods="goodsList[selectedIndex]" @close="showEditDialog = false"/>
+    <edit-goods-info-dialog
+      v-if="showEditDialog"
+      :show="showEditDialog"
+      :goods="goodsList[selectedIndex]"
+      @close="showEditDialog = false"
+      @update="handlerUpdate"
+    />
   </div>
 </template>
 
@@ -150,7 +156,9 @@ export default {
     },
     beforeEdit(index) {
       this.selectedIndex = index
-      this.showEditDialog = true
+      this.$nextTick(() => {
+        this.showEditDialog = true
+      })
     },
     handlerDelete() {
       this.$api.goods.deleteGoods(this.goodsList[this.selectedIndex].goodsId).then(() => {
@@ -169,6 +177,10 @@ export default {
     confirm(index) {
       this.applyList.splice(index, 1)
       this.showAuditDialog = false
+    },
+    handlerUpdate(item) {
+      console.log(item)
+      this.$set(this.goodsList, this.selectedIndex, item)
     }
   }
 }

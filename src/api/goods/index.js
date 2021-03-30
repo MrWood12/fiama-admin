@@ -1,4 +1,4 @@
-import { get, del } from '@/plugins/modules/request'
+import { get, del, put } from '@/plugins/modules/request'
 
 export const getGoodsInfoList = params => get('/goods/goods-info-list', params)
 
@@ -15,3 +15,9 @@ export const deleteGoods = goodsId => del('/goods/goods', { goodsId }, {
 
 // 批量获取商品信息
 export const batchGetGoodsInfo = params => get('/goods/goods-info-list', params)
+
+// 更新商品信息
+export const updateGoodsInfo = params => put('/goods/goods', params, {
+  showTip: true,
+  tipMsg: '更新成功'
+})
