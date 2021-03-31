@@ -29,24 +29,28 @@
       </div>
       <el-form-item label="商品主图" prop="name">
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
           list-type="picture-card"
-          :auto-upload="false"
+          name="file"
           :on-preview="handlePictureCardPreview"
           :file-list="masterImgList"
-          :on-remove="handleRemove"
+          :on-remove="handleRemoveMaster"
+          :action="uploadUrl"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus" />
         </el-upload>
       </el-form-item>
       <el-form-item label="商品描述图" prop="name">
         <el-upload
-          action="https://jsonplaceholder.typicode.com/posts/"
           list-type="picture-card"
-          :auto-upload="false"
+          name="file"
           :on-preview="handlePictureCardPreview"
           :on-remove="handleRemove"
           :file-list="imgList"
+          :action="uploadUrl"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus" />
         </el-upload>
@@ -64,6 +68,9 @@
   </el-dialog>
 </template>
 <script>
+import dataStore from '@/utils/dataStore'
+import { BASE_URL, IMAGE_BASE_URL } from '@/config'
+
 export default {
   props: {
     goods: {
@@ -94,16 +101,26 @@ export default {
         goodsName: [
           { required: true, message: '请输入商品名称', trigger: 'blur' }
         ]
-      }
+      },
+      uploadUrl: BASE_URL + '/goods/upload-image',
+      headers: {
+        'Authorization': dataStore.getToken() || ''
+      },
+      tempImageList: []
     }
   },
   computed: {
     masterImgList() {
-      return [{ url: this.tempGoods.masterImg }]
+      if (!this.tempGoods.masterImg) {
+        return []
+      }
+      const url = this.tempGoods.masterImg.includes('http') ? this.tempGoods.masterImg : IMAGE_BASE_URL + this.tempGoods.masterImg
+      return [{ url }]
     },
     imgList() {
       const arr = []
       this.tempGoods.goodsInfo.imgList.forEach(url => {
+        url = url.includes('http') ? url : IMAGE_BASE_URL + url
         arr.push({ url })
       })
       return arr
@@ -125,6 +142,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           // alert('submit!')
+          this.getImgList()
           await this.$api.goods.updateGoodsInfo(this.tempGoods)
           this.$emit('update', this.tempGoods)
           this.$emit('close')
@@ -134,12 +152,54 @@ export default {
         }
       })
     },
+    getImgList() {
+      for (let i = 0; i < this.tempImageList.length; i++) {
+        this.tempImageList[i].url = this.tempImageList[i].url.replace(IMAGE_BASE_URL, '')
+      }
+      this.tempGoods.goodsInfo.imgList = this.tempImageList.map(item => {
+        return item.url
+      })
+    },
+    handleRemoveMaster(file, fileList) {
+      if (file.status === 'success') {
+        this.tempGoods.masterImg = ''
+      }
+    },
     handleRemove(file, fileList) {
-      console.log(file, fileList)
+      console.log(fileList)
+      this.tempImageList = fileList
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
+    },
+    handleAvatarSuccess(res) {
+      console.log(res)
+      this.tempGoods.masterImg = res.data.url
+      // this.isUploading = false
+      // this.$emit('onUpload', this.imageUrl, res.data.avatarUrl)
+    },
+    beforeAvatarUpload(file) {
+      // console.log(file.type)
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      this.isUploading = true
+      return isJPG && isLt2M
+    },
+    getToken() {
+      return {
+        'Authorization': dataStore.getToken() || ''
+      }
+    },
+    onSuccess(res) {
+      console.log(res)
     }
   }
 }

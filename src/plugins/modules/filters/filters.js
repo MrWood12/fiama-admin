@@ -61,5 +61,8 @@ export const formatNickName = (nickName) => {
 
 // 照片路径加上前缀
 export const addImagePrefix = (imgUrl) => {
+  if (imgUrl.includes('http')) {
+    return imgUrl
+  }
   return IMAGE_BASE_URL + imgUrl
 }

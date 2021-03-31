@@ -18,7 +18,7 @@
         <el-table-column label="宠物" width="110" align="center">
           <template slot-scope="scope">
             <div class="apply-user yx-center">
-              <img :src="scope.row.masterImg">
+              <img :src="scope.row.masterImg | addImagePrefix">
               <span>{{ scope.row.goodsName }}</span>
             </div>
           </template>
@@ -57,7 +57,8 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="goods-pagination">
+      <div class="goods-pagination y-center__between">
+        <el-button size="mini" type="primary">新增</el-button>
         <el-pagination
           background
           layout="prev, pager, next"
@@ -207,9 +208,6 @@ export default {
 }
 
 .goods-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   bottom: 10px;
   width: 916px;
   position: fixed;
