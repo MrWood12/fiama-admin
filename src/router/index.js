@@ -51,21 +51,21 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '宠物商店', icon: 'dashboard' }
     }]
   },
 
   {
     path: '/example',
     component: Layout,
-    redirect: '/example/table',
+    redirect: '/example/tool',
     name: 'Example',
     meta: { title: '商品列表', icon: 'el-icon-s-help' },
     children: [
       {
         path: 'table',
         name: 'Table',
-        component: () => import('@/views/table/index'),
+        component: () => import('@/views/tool/index'),
         meta: { title: '工具列表', icon: 'table' }
       },
       {
@@ -74,12 +74,6 @@ export const constantRoutes = [
         component: () => import('@/views/pet-list/index'),
         meta: { title: '宠物列表', icon: 'table' }
       },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
     ]
   },
 

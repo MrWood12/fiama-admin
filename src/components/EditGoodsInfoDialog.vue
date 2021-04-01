@@ -1,11 +1,11 @@
 <template>
-  <el-dialog title="编辑商品详情" :visible="show" class="edit-goods-info" @close="$emit('close')">
-    <el-form ref="goodsForm" :model="tempGoods" :rules="rules" label-width="100px" >
+  <el-dialog :title="`${isNew ? '新增' : '编辑'}${goodsType === 1 ? '宠物' : '工具'}`" :visible="show" class="edit-goods-info" @close="$emit('close')">
+    <el-form ref="goodsForm" :model="tempGoods" :rules="rules" label-width="100px">
       <el-form-item label="商品名称" prop="goodsName">
         <el-input v-model="tempGoods.goodsName" />
       </el-form-item>
-      <el-form-item label="商品描述" prop="goodsName">
-        <el-input v-model="tempGoods.goodsInfo.intro" />
+      <el-form-item label="商品描述" prop="intro">
+        <el-input v-model="tempGoods.intro" />
       </el-form-item>
       <div class="el-row">
         <el-form-item class="el-col-12" label="原价" prop="name">
@@ -35,7 +35,7 @@
           :file-list="masterImgList"
           :on-remove="handleRemoveMaster"
           :action="uploadUrl"
-          :on-success="handleAvatarSuccess"
+          :on-success="handleMasterSuccess"
           :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus" />
@@ -49,7 +49,7 @@
           :on-remove="handleRemove"
           :file-list="imgList"
           :action="uploadUrl"
-          :on-success="handleAvatarSuccess"
+          :on-success="handlerSuccess"
           :before-upload="beforeAvatarUpload"
         >
           <i class="el-icon-plus" />
@@ -80,6 +80,14 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    isNew: {
+      type: Boolean,
+      default: false
+    },
+    goodsType: {
+      type: Number,
+      default: 1
     }
   },
   data() {
@@ -94,12 +102,17 @@ export default {
         originalPrice: 1,
         saleVolume: 1,
         goodsInfo: {
-          imgList: []
-        }
+          imgList: [],
+          postage: 1
+        },
+        intro: ''
       },
       rules: {
         goodsName: [
           { required: true, message: '请输入商品名称', trigger: 'blur' }
+        ],
+        intro: [
+          { required: true, message: '请输入商品描述', trigger: 'blur' }
         ]
       },
       uploadUrl: BASE_URL + '/goods/upload-image',
@@ -129,9 +142,12 @@ export default {
   watch: {
     goods: {
       handler(val) {
-        console.log(val)
-        this.tempGoods = {
-          ...val
+        if (!this.isNew) {
+          console.log(val)
+          this.tempGoods = {
+            ...val,
+            intro: val.goodsInfo.intro
+          }
         }
       },
       immediate: true
@@ -139,18 +155,39 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(async (valid) => {
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          // alert('submit!')
+          if (!this.checkCanSubmit()) {
+            return false
+          }
           this.getImgList()
-          await this.$api.goods.updateGoodsInfo(this.tempGoods)
-          this.$emit('update', this.tempGoods)
+          if (this.isNew) {
+            this.tempGoods.goodsType = this.goodsType
+            await this.$api.goods.addGoods(this.tempGoods).then(res => {
+              this.$emit('update', res.goodsItem, true)
+            })
+            this.$emit('new-close')
+          } else {
+            await this.$api.goods.updateGoodsInfo(this.tempGoods)
+            this.$emit('update', this.tempGoods)
+          }
           this.$emit('close')
         } else {
-          // console.log('error submit!!')
           return false
         }
       })
+    },
+    checkCanSubmit() {
+      if (!this.tempGoods.masterImg) {
+        this.$tips.error('请先上传主图')
+        return false
+      }
+      if (!this.tempGoods.goodsInfo.imgList || this.tempGoods.goodsInfo.imgList.length !== this.tempImageList.length) {
+        this.$tips.error('至少上传一张描述图')
+        return false
+      }
+      this.tempGoods.goodsInfo.intro = this.tempGoods.intro
+      return true
     },
     getImgList() {
       for (let i = 0; i < this.tempImageList.length; i++) {
@@ -173,11 +210,17 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    handleAvatarSuccess(res) {
+    handleMasterSuccess(res) {
       console.log(res)
       this.tempGoods.masterImg = res.data.url
       // this.isUploading = false
       // this.$emit('onUpload', this.imageUrl, res.data.avatarUrl)
+    },
+    handlerSuccess(res) {
+      this.tempImageList.push({
+        url: res.data.url
+      })
+      this.tempGoods.goodsInfo.imgList.push(res.data.url)
     },
     beforeAvatarUpload(file) {
       // console.log(file.type)

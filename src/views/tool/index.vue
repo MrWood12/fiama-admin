@@ -97,6 +97,7 @@
       :show="showEditDialog"
       :goods="goodsList[selectedIndex]"
       :is-new="isAdd"
+      :goods-type="2"
       @close="showEditDialog = false"
       @new-close="isAdd = false"
       @update="handlerUpdate"
@@ -148,6 +149,7 @@ export default {
   methods: {
     getGoodsList(curPage = 1) {
       this.pGetGoodsList.currentPage = curPage - 1
+      this.pGetGoodsList.goodsType = 2
       this.$api.goods.getGoodsList(this.pGetGoodsList).then(({ goodsList, count }) => {
         this.goodsList = goodsList
         this.count = count

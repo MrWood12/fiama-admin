@@ -1,4 +1,4 @@
-import { get, del, put } from '@/plugins/modules/request'
+import { get, del, put, post } from '@/plugins/modules/request'
 
 export const getGoodsInfoList = params => get('/goods/goods-info-list', params)
 
@@ -20,4 +20,9 @@ export const batchGetGoodsInfo = params => get('/goods/goods-info-list', params)
 export const updateGoodsInfo = params => put('/goods/goods', params, {
   showTip: true,
   tipMsg: '更新成功'
+})
+
+export const addGoods = params => post('/goods/goods', params, {
+  showTip: true,
+  tipMsg: '新增商品成功'
 })

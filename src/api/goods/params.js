@@ -3,7 +3,8 @@ export const pGetGoodsList = () => {
     priceRange: 'ALL',
     currentPage: 0,
     pagingSize: 6,
-    sortType: 'ASC'
+    sortType: 'ASC',
+    goodsType: 1
   }
 }
 
