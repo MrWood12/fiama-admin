@@ -73,7 +73,7 @@ export const constantRoutes = [
         name: 'PetList',
         component: () => import('@/views/pet-list/index'),
         meta: { title: '宠物列表', icon: 'table' }
-      },
+      }
     ]
   },
 
@@ -83,9 +83,9 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        name: 'Order',
+        component: () => import('@/views/order-list/index'),
+        meta: { title: '商品订单', icon: 'form' }
       }
     ]
   },
