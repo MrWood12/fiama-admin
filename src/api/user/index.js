@@ -71,3 +71,5 @@ export function logout() {
     method: 'post'
   })
 }
+
+export const getUserList = params => get('/user/user-list', params)

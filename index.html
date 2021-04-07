@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<button id="btn">点击我</button>
+<button onclick="add()">添加</button>
+<button onclick="remove()">删除</button>
+<script>
+  const btn = document.querySelector('#btn')
+  btn.addEventListener('click', () => {
+    console.log('点击我')
+  })
+
+  function add() {
+    const temp = document.createElement('button')
+    temp.id = 'btn'
+    temp.innerText = '点击我'
+    document.body.appendChild(temp)
+  }
+
+  function remove() {
+
+  }
+</script>
+</body>
+</html>

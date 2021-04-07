@@ -1,14 +1,11 @@
 <template>
   <el-dialog
-    :title="type === 'approved' ? '审核通过' : '审核不通过'"
+    :title="type === 'approve' ? '审核通过' : '审核不通过'"
     :visible="show"
     :center="true"
     @close="$emit('close')"
     width="400px">
     <el-form :model="ruleForm" :rules="rules" ref="auditForm" class="demo-ruleForm">
-<!--      <el-form-item label="兑换码" prop="exchangeCode">-->
-<!--        <el-input v-model="ruleForm.exchangeCode"></el-input>-->
-<!--      </el-form-item>-->
       <el-form-item label="备注" prop="remark">
         <el-input v-model="ruleForm.remark"></el-input>
       </el-form-item>
@@ -29,11 +26,6 @@ export default {
       ruleForm: {
         exchangeCode: '',
         remark: ''
-      },
-      rules: {
-        // exchangeCode: [
-        //   { required: true, message: '请输入兑换码', trigger: 'blur' }
-        // ]
       }
     }
   },
@@ -66,10 +58,9 @@ export default {
       })
     },
     approved() {
-      this.$api.withdraw.audit({
-        recordId: this.recordId,
-        comment: this.ruleForm.remark,
-        isApproved: this.type === 'approved'
+      this.$api.service[this.type]({
+        serviceId: this.recordId,
+        remark: this.ruleForm.remark
       }).then(res => {
         this.$tips.success('审核成功')
         this.$emit('confirm', this.index)
