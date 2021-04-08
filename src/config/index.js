@@ -3,6 +3,7 @@ module.exports = {
   BASE_URL: process.env.VUE_APP_SERVER_URL,
   // 图片服务器路径
   IMAGE_BASE_URL: process.env.VUE_APP_IMG_SERVER_URL,
+  GOODS_IMAGE_URL: process.env.VUE_APP_IMG_SERVER_URL + 'goods-url/',
   // 成功的状态码
   SUCCESS_CODE: 10000,
   // 未知错误

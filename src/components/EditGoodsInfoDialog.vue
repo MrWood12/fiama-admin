@@ -69,7 +69,7 @@
 </template>
 <script>
 import dataStore from '@/utils/dataStore'
-import { BASE_URL, IMAGE_BASE_URL } from '@/config'
+import { BASE_URL, GOODS_IMAGE_URL } from '@/config'
 
 export default {
   props: {
@@ -127,13 +127,13 @@ export default {
       if (!this.tempGoods.masterImg) {
         return []
       }
-      const url = this.tempGoods.masterImg.includes('http') ? this.tempGoods.masterImg : IMAGE_BASE_URL + this.tempGoods.masterImg
+      const url = this.tempGoods.masterImg.includes('http') ? this.tempGoods.masterImg : GOODS_IMAGE_URL + this.tempGoods.masterImg
       return [{ url }]
     },
     imgList() {
       const arr = []
       this.tempGoods.goodsInfo.imgList.forEach(url => {
-        url = url.includes('http') ? url : IMAGE_BASE_URL + url
+        url = url.includes('http') ? url : GOODS_IMAGE_URL + url
         arr.push({ url })
       })
       return arr
@@ -182,7 +182,8 @@ export default {
         this.$tips.error('请先上传主图')
         return false
       }
-      if (!this.tempGoods.goodsInfo.imgList || this.tempGoods.goodsInfo.imgList.length !== this.tempImageList.length) {
+      console.log(this.tempGoods.goodsInfo.imgList, this.tempImageList)
+      if (!this.tempGoods.goodsInfo.imgList) {
         this.$tips.error('至少上传一张描述图')
         return false
       }
@@ -191,7 +192,7 @@ export default {
     },
     getImgList() {
       for (let i = 0; i < this.tempImageList.length; i++) {
-        this.tempImageList[i].url = this.tempImageList[i].url.replace(IMAGE_BASE_URL, '')
+        this.tempImageList[i].url = this.tempImageList[i].url.replace(GOODS_IMAGE_URL, '')
       }
       this.tempGoods.goodsInfo.imgList = this.tempImageList.map(item => {
         return item.url
@@ -203,7 +204,12 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      console.log(fileList)
+      console.log(file, fileList)
+      const url = file.url.replace(GOODS_IMAGE_URL, '')
+      const index = this.tempGoods.goodsInfo.imgList.find(item => item === url)
+      if (index !== -1) {
+        this.tempGoods.goodsInfo.imgList.splice(index, 1)
+      }
       this.tempImageList = fileList
     },
     handlePictureCardPreview(file) {

@@ -1,4 +1,4 @@
-import { IMAGE_BASE_URL } from '@/config'
+import { IMAGE_BASE_URL, GOODS_IMAGE_URL } from '@/config'
 
 /**
  * 过滤器
@@ -65,4 +65,12 @@ export const addImagePrefix = (imgUrl) => {
     return imgUrl
   }
   return IMAGE_BASE_URL + imgUrl
+}
+
+// 照片路径加上前缀
+export const addGoodsImagePrefix = (imgUrl) => {
+  if (imgUrl.includes('http')) {
+    return imgUrl
+  }
+  return GOODS_IMAGE_URL + imgUrl
 }

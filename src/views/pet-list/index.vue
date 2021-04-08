@@ -9,9 +9,8 @@
         border
         fit
         highlight-current-row
-        :default-sort="{prop: 'goodsId', order: 'ascending'}"
       >
-        <el-table-column align="center" label="ID" width="95" sortable prop="goodsId">
+        <el-table-column align="center" label="ID" width="95" prop="goodsId">
           <template slot-scope="scope">
             {{ scope.row.goodsId }}
           </template>
@@ -19,32 +18,32 @@
         <el-table-column label="宠物" width="110" align="center">
           <template slot-scope="scope">
             <div class="apply-user yx-center">
-              <img :src="scope.row.masterImg | addImagePrefix">
+              <img :src="scope.row.masterImg | addGoodsImagePrefix">
               <span>{{ scope.row.goodsName }}</span>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="原价" width="110" align="center" sortable prop="originalPrice">
+        <el-table-column label="原价" width="110" align="center" prop="originalPrice">
           <template slot-scope="scope">
             {{ scope.row.originalPrice.toFixed(2) }}
           </template>
         </el-table-column>
-        <el-table-column label="优惠价" width="110" align="center" sortable prop="discountPrice">
+        <el-table-column label="优惠价" width="110" align="center" prop="discountPrice">
           <template slot-scope="scope">
             {{ scope.row.discountPrice.toFixed(2) }}
           </template>
         </el-table-column>
-        <el-table-column label="会员价" width="110" align="center" sortable prop="discountPrice">
+        <el-table-column label="会员价" width="110" align="center" prop="discountPrice">
           <template slot-scope="scope">
             {{ scope.row.memberPrice.toFixed(2) }}
           </template>
         </el-table-column>
-        <el-table-column label="库存" width="110" align="center" sortable prop="inventory">
+        <el-table-column label="库存" width="110" align="center" prop="inventory">
           <template slot-scope="scope">
             {{ scope.row.inventory }}
           </template>
         </el-table-column>
-        <el-table-column label="已售" width="110" align="center" sortable prop="saleVolume">
+        <el-table-column label="已售" width="110" align="center" prop="saleVolume">
           <template slot-scope="scope">
             {{ scope.row.saleVolume }}
           </template>

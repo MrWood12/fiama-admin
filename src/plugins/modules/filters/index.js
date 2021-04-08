@@ -4,7 +4,8 @@ import {
     formatString,
     formatDate,
     formatNickName,
-    addImagePrefix
+    addImagePrefix,
+    addGoodsImagePrefix
 } from './filters.js'
 
 const Filters = {
@@ -15,6 +16,7 @@ const Filters = {
         Vue.filter('formatDate', formatDate)
         Vue.filter('formatNickName', formatNickName)
         Vue.filter('addImagePrefix', addImagePrefix)
+        Vue.filter('addGoodsImagePrefix', addGoodsImagePrefix)
     }
 }
 

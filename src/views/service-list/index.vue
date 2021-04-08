@@ -18,7 +18,7 @@
         <el-table-column label="宠物图片" width="110" align="center">
           <template slot-scope="scope">
             <div class="apply-user yx-center">
-              <img :src="scope.row.url | addImagePrefix">
+              <img :src="scope.row.url | addGoodsImagePrefix">
             </div>
           </template>
         </el-table-column>
@@ -61,7 +61,7 @@
         <el-table-column label="用户" width="110" align="center">
           <template slot-scope="scope">
             <div class="apply-user yx-center">
-              <img :src="scope.row.userInfo.avatarUrl">
+              <img :src="scope.row.userInfo.avatarUrl | addImagePrefix">
               <span>{{ scope.row.userInfo.nickName }}</span>
             </div>
           </template>
