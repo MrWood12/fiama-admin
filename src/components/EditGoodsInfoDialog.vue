@@ -20,8 +20,8 @@
         <el-form-item class="el-col-12" label="库存" prop="name">
           <el-input-number v-model="tempGoods.inventory" :min="1" :max="1000" />
         </el-form-item>
-        <el-form-item class="el-col-12" label="是否上架" prop="delivery">
-          <el-switch v-model="tempGoods.delivery" />
+        <el-form-item class="el-col-12" label="是否上架" prop="isPutAway">
+          <el-switch v-model="tempGoods.isPutAway" />
         </el-form-item>
         <el-form-item class="el-col-12" label="运费" prop="delivery">
           <el-input-number v-model="tempGoods.goodsInfo.postage" :precision="2" :step="0.1" :min="0.01" />
@@ -101,6 +101,7 @@ export default {
         memberPrice: 1,
         originalPrice: 1,
         saleVolume: 1,
+        isPutAway: true,
         goodsInfo: {
           imgList: [],
           postage: 1
@@ -160,7 +161,7 @@ export default {
           if (!this.checkCanSubmit()) {
             return false
           }
-          this.getImgList()
+          // this.getImgList()
           if (this.isNew) {
             this.tempGoods.goodsType = this.goodsType
             await this.$api.goods.addGoods(this.tempGoods).then(res => {
