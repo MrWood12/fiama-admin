@@ -43,7 +43,7 @@ const actions = {
       // }).catch(error => {
       //   reject(error)
       // })
-      app.$api.user.login({ email: username, password: md5(password) }).then(res => {
+      app.$api.user.login({ email: username, password: password }).then(res => {
         commit('SET_TOKEN', res.token)
         localStorage.setItem('name', res.nickName)
         localStorage.setItem('avatarUrl', res.avatarUrl)
