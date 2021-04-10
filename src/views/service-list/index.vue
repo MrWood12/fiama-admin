@@ -81,7 +81,7 @@
               <el-tag type="success">审核通过</el-tag>
             </div>
             <div class="xy-center" v-if="scope.row.status === 2">
-              <el-tag type="danger">{{scope.row.remark}}</el-tag>
+              <el-tag type="danger">{{scope.row.remark || '审核不通过'}}</el-tag>
             </div>
           </template>
         </el-table-column>
