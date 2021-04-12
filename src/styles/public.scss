@@ -141,6 +141,16 @@
     border-radius: 0;
 }
 
+body .el-table th.gutter{
+  display: table-cell!important;
+}
+
+body .el-table colgroup.gutter{
+  display: table-cell!important;
+}
+
+
+
 //.global-scrollbar {
 //    &::-webkit-scrollbar {
 //        width: 8px; /* 纵向滚动条*/

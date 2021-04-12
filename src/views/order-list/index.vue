@@ -5,7 +5,7 @@
         v-loading="listLoading"
         :data="orderList"
         element-loading-text="Loading"
-        style="width: 1406px"
+        style="width: 1586px"
         border
         fit
         highlight-current-row
@@ -60,6 +60,11 @@
               <img :src="scope.row.userInfo.avatarUrl | addImagePrefix">
               <span>{{ scope.row.userInfo.nickName }}</span>
             </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="配送地址" width="180" align="center" prop="saleVolume">
+          <template slot-scope="scope">
+            {{ scope.row.address && scope.row.address.completedAddress }}
           </template>
         </el-table-column>
         <el-table-column label="下单时间" width="180" align="center" prop="discountPrice">
@@ -190,7 +195,7 @@ export default {
 
 .goods-pagination {
   bottom: 10px;
-  width: 1406px;
+  width: 1586px;
   position: fixed;
   margin-left: auto;
   justify-content: flex-end;
