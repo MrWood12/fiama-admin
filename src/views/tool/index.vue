@@ -79,14 +79,14 @@
       :index="selectedIndex"
       :record-id="selectedRecordId"
       @confirm="confirm"
-      @close="showAuditDialog = false"
+      @close="showAuditDialog = false"                      
     />
     <el-dialog
-      title="温馨提示"
+      title="温馨提示"  
       :visible.sync="showDelDialog"
       width="300px"
       center>
-      <span class="xy-center" style="font-size: 18px; font-weight: 500;">您确认删除该宠物吗？</span>
+      <span class="xy-center" style="font-size: 18px; font-weight: 500;">您确认删除该商品吗？</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showDelDialog = false">取 消</el-button>
         <el-button type="primary" @click="handlerDelete">确 定</el-button>
