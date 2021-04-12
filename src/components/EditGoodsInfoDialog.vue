@@ -100,7 +100,7 @@ export default {
         masterImg: '',
         memberPrice: 1,
         originalPrice: 1,
-        saleVolume: 1,
+        saleVolume: 0,
         isPutAway: true,
         goodsInfo: {
           imgList: [],

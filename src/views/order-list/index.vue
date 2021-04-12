@@ -24,7 +24,7 @@
         <el-table-column label="宠物" width="110" align="center">
           <template slot-scope="scope">
             <div class="apply-user yx-center">
-              <img :src="scope.row.masterImg | addImagePrefix">
+              <img :src="scope.row.masterImg | addGoodsImagePrefix">
               <span>{{ scope.row.goodsName }}</span>
             </div>
           </template>
