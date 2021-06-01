@@ -7,6 +7,7 @@ export const PAGE_SIZE = 6
 
 /**
  * 对象常量，存放多行的常量
+ * Object.freeze 冻结不可修改
  */
 
 export const TIP_TYPE = Object.freeze({

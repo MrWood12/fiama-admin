@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="`${isNew ? '新增' : '编辑'}${goodsType === 1 ? '宠物g' : '工具'}`" :visible="show" class="edit-goods-info" @close="$emit('close')">
+  <el-dialog :title="`${isNew ? '新增' : '编辑'}${goodsType === 1 ? '宠物' : '工具'}`" :visible="show" class="edit-goods-info" @close="$emit('close')">
     <el-form ref="goodsForm" :model="tempGoods" :rules="rules" label-width="100px">
       <el-form-item label="商品名称" prop="goodsName">
         <el-input v-model="tempGoods.goodsName" />
